@@ -1,0 +1,36 @@
+```javascript
+document.getElementById('codeForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Предотвращаем перезагрузку страницы
+
+    let phoneInput = document.getElementById('phoneNumber');
+    let resultDiv = document.getElementById('result');
+    let uniqueCodeSpan = document.getElementById('uniqueCode');
+
+    // Проверяем введённый телефон
+    if(phoneInput.value.trim().length === 0 || !isValidPhone(phoneInput.value)) {
+        alert('Некорректный номер телефона!');
+        return false;
+    }
+
+    // Генерируем уникальный код вида EMIN-XXXX
+    let codeIndex = generateUniqueCode();
+    let uniqueCode = `EMIN-${codeIndex}`;
+
+    // Показываем полученный код клиенту
+    uniqueCodeSpan.textContent = uniqueCode;
+    resultDiv.style.display = 'block';
+});
+
+// Проверка формата номера телефона (+7XXXXXXXXXX)
+function isValidPhone(phone) {
+    var re = /^(\+7)[\d]{10}$/;
+    return re.test(String(phone));
+}
+
+// Генератор уникальных индексов
+let lastGeneratedCode = 1300; // Начальная позиция кодов
+function generateUniqueCode() {
+    lastGeneratedCode++;
+    return lastGeneratedCode;
+}
+```
